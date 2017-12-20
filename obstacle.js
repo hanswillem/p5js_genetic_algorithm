@@ -8,7 +8,7 @@ class Obstacle {
 
   show() {
     noStroke();
-    fill(0)
+    fill(0, 50);
     rectMode(CORNER);
     rect(this.x, this.y, this.w, this.h);
   }

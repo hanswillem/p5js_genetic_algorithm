@@ -30,6 +30,10 @@ class Population {
         this.maxFitness = i.fitness;
       }
     }
+    if (this.maxFitness === 0) {
+      return false;
+    }
+
     // loop through rockets to create new generation
     let newGenRockets = [];
     for (let i = 0; i < this.rockets.length; i++) {
@@ -76,10 +80,24 @@ class Population {
 
 
   hitTest() {
-    // obstacles
+    // loop through all obstacles
     for (let obs of obstcls) {
       for (let i of this.rockets) {
-        if (i.pos.x > obs.x && i.pos.x < obs.x + obs.w && i.pos.y > obs.y && i.pos.y < obs.y + obs.h) {
+        let crn_x = obs.x;
+        let crn_w = obs.x + obs.w;
+        let crn_y = obs.y;
+        let crn_h = obs.y + obs.h;
+        // if the obstacle is created by dragging from right to left,
+        // or from bottom to top, the corner variables need to be switched
+        // before hittesting
+        if (crn_x > crn_w) {
+          [crn_x, crn_w] = [crn_w, crn_x];
+        }
+        if (crn_y > crn_h) {
+          [crn_y, crn_h] = [crn_h, crn_y];
+        }
+        // hit test obstacles
+        if (i.pos.x > crn_x && i.pos.x < crn_w && i.pos.y > crn_y && i.pos.y < crn_h) {
           i.hit = true;
         }
       }
@@ -94,10 +112,34 @@ class Population {
     }
   }
 
-  edges() {
-    for (let i of this.rockets) {
-      if (i.pos.x < 0 || i.pos.x > width || i.pos.y < 0 || i.pos.y > height) {
-        i.hit = true;
+
+  edges(die = false) {
+    if (die) {
+      // hit the wall = death
+      for (let i of this.rockets) {
+        if (i.pos.x < 0 || i.pos.x > width || i.pos.y < 0 || i.pos.y > height) {
+          i.hit = true;
+        }
+      }
+    } else {
+      // hit the wall = bounce
+      for (let i of this.rockets) {
+        if (i.pos.x < 0) {
+          i.pos.x = 0;
+          i.vel.x *= -.1;
+        }
+        if (i.pos.x > width) {
+          i.pos.x = width;
+          i.vel.x *= -.1;
+        }
+        if (i.pos.y < 0) {
+          i.pos.y = 0;
+          i.vel.y *= -.1;
+        }
+        if (i.pos.y > height) {
+          i.pos.y = height;
+          i.vel.y *= -.1;
+        }
       }
     }
   }

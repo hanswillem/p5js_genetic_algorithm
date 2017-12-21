@@ -146,6 +146,9 @@ function drawWinning() {
     noFill();
     stroke(255);
     drawPath(winner);
+    noStroke();
+    fill(0, 0, 255, 100);
+    ellipse(winner.closestPos.x, winner.closestPos.y, 25);
   }
 }
 

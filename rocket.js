@@ -9,6 +9,7 @@ class Rocket {
     this.fitness = 0;
     this.hit = false;
 
+    this.closestPos;
     this.path = [];
   }
 
@@ -31,13 +32,17 @@ class Rocket {
 
   update() {
     this.path.push(createVector(this.pos.x, this.pos.y));
-
+    // if not hit
     if (this.hit === false) {
       this.applyForce(this.dna.genes[lifetime]);
       this.vel.add(this.acc);
       this.pos.add(this.vel);
       this.acc.mult(0);
-      this.setFitness();
+      if (this.getFitness() > this.fitness) {
+        this.fitness = this.getFitness();
+        this.closestPos = createVector(this.pos.x, this.pos.y);
+      }
+    // if hit
     } else {
       this.fitness = -1;
     }
@@ -49,9 +54,9 @@ class Rocket {
   }
 
 
-  setFitness() {
+  getFitness() {
     let d = dist(this.pos.x, this.pos.y, tar.x, tar.y);
-    this.fitness = 1 / d;
+    return 1 / d;
   }
 
 

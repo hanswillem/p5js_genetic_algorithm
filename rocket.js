@@ -8,7 +8,10 @@ class Rocket {
     this.dna = new DNA();
     this.fitness = 0;
     this.hit = false;
+
+    this.path = [];
   }
+
 
   show() {
     noStroke();
@@ -25,7 +28,10 @@ class Rocket {
 
   }
 
+
   update() {
+    this.path.push(createVector(this.pos.x, this.pos.y));
+
     if (this.hit === false) {
       this.applyForce(this.dna.genes[lifetime]);
       this.vel.add(this.acc);
@@ -37,12 +43,16 @@ class Rocket {
     }
   }
 
+
   applyForce(f) {
     this.acc.add(f);
   }
+
 
   setFitness() {
     let d = dist(this.pos.x, this.pos.y, tar.x, tar.y);
     this.fitness = 1 / d;
   }
+
+
 }

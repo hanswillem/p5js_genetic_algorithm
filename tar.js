@@ -5,7 +5,7 @@ class Tar {
   }
 
   show() {
-    fill(0, 255, 0);
+    fill(0, 255, 0, 150);
     noStroke();
     ellipse(this.x, this.y, 100);
   }

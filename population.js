@@ -4,6 +4,7 @@ class Population {
     this.rockets = [];
     this.addRockets(this.n);
     this.maxFitness = 0;
+    this.fittestRocket;
   }
 
 
@@ -28,10 +29,13 @@ class Population {
     for (let i of this.rockets) {
       if (i.fitness > this.maxFitness) {
         this.maxFitness = i.fitness;
+        this.fittestRocket = i;
       }
     }
     if (this.maxFitness === 0) {
       return false;
+    } else {
+      winner = this.fittestRocket;
     }
 
     // loop through rockets to create new generation
@@ -88,8 +92,7 @@ class Population {
         let crn_y = obs.y;
         let crn_h = obs.y + obs.h;
         // if the obstacle is created by dragging from right to left,
-        // or from bottom to top, the corner variables need to be switched
-        // before hittesting
+        // or from bottom to top, the corner variables need to be switched before hittesting
         if (crn_x > crn_w) {
           [crn_x, crn_w] = [crn_w, crn_x];
         }
@@ -105,6 +108,7 @@ class Population {
     // target
     for (let i of this.rockets) {
       if ( dist(i.pos.x, i.pos.y, tar.x, tar.y) < 50 ) {
+        //winner = i;
         if (lifetime < lifespan) {
           lifespan = lifetime;
         }

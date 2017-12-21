@@ -3,7 +3,7 @@
 // 'u' - undo last obstacle
 
 
-let p, popMax, lifespan, lifespanMax, lifetime, mutationrate, obstcls, creatingObstcl, tar, dragTar, gencount;
+let p, popMax, lifespan, lifespanMax, lifetime, mutationrate, obstcls, creatingObstcl, tar, dragTar, gencount, winner;
 
 
 function setup() {
@@ -14,7 +14,7 @@ function setup() {
   lifespan = lifespanMax;
   lifetime = 0;
   mutationrate = .02;
-  popMax = 500;
+  popMax = 100;
   p = new Population(popMax);
   obstcls = [];
   creatingObstcl = false;
@@ -32,6 +32,7 @@ function draw() {
   createObstacle();
   drawObstacles();
   handlePopulation();
+  drawWinning();
   lifetime ++;
 
   drawHud();
@@ -117,6 +118,7 @@ function resetall() {
   lifespan = lifespanMax;
   p = new Population(popMax);
   gencount = 0;
+  winner = null;
 }
 
 
@@ -129,10 +131,29 @@ function undoObstacle() {
 
 
 function drawHud() {
+  noStroke();
   fill(0);
   text('lifespan: ' + lifespan, 50, 50);
   text('lifetime: ' + lifetime, 50, 70);
   text('max fitness: ' + p.maxFitness, 50, 90);
   text('mutation rate: ' + mutationrate, 50, 110);
   text('generation: ' + gencount, 50, 130);
+}
+
+
+function drawWinning() {
+  if (winner) {
+    noFill();
+    stroke(255);
+    drawPath(winner);
+  }
+}
+
+
+function drawPath(r) {
+  for (let i = 0; i < r.path.length; i++) {
+    if (i > 0) {
+      line(r.path[i - 1].x, r.path[i - 1].y, r.path[i].x, r.path[i].y);
+    }
+  }
 }

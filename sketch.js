@@ -13,11 +13,11 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
   fill(0);
-  lifespanMax = 400;
+  lifespanMax = 1000;
   lifespan = lifespanMax;
   lifetime = 0;
   mutationrate = .02;
-  popMax = 100;
+  popMax = 350;
   p = new Population(popMax);
   obstcls = [];
   creatingObstcl = false;
@@ -36,11 +36,8 @@ function draw() {
   drawDragTar();
   createObstacle();
   tar.show();
-
-  if (!pause) {
-    handlePopulation();
-    lifetime ++;
-  }
+  handlePopulation();
+  lifetime ++;
 }
 
 

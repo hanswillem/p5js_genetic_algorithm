@@ -16,8 +16,13 @@ class Population {
 
   update() {
     for (let i of this.rockets) {
-      i.show();
+      if (!pause) {
+        i.show();
+      }
       i.update();
+    }
+    if (this.allHit()) {
+      resetall();
     }
   }
 
@@ -148,4 +153,15 @@ class Population {
       }
     }
   }
+
+
+  allHit() {
+    for (let i of this.rockets) {
+      if (i.hit === false) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }

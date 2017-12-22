@@ -94,13 +94,13 @@ class Population {
         if (crn_y > crn_h) {
           [crn_y, crn_h] = [crn_h, crn_y];
         }
-        // hit test obstacles
+        // if obstacle is hit
         if (i.pos.x > crn_x && i.pos.x < crn_w && i.pos.y > crn_y && i.pos.y < crn_h) {
           i.hit = true;
         }
       }
     }
-    // target
+    // if target is hit
     for (let i of this.rockets) {
       if (dist(i.pos.x, i.pos.y, tar.x, tar.y) < 50) {
         if (winner) {
@@ -148,13 +148,4 @@ class Population {
       }
     }
   }
-
-
-
-
-
-
-
-
-
 }

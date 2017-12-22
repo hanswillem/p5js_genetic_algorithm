@@ -165,9 +165,10 @@ function drawWinning() {
 
 function pathLength(r) {
   let sum = 0;
-  for (let i of r.path) {
-    sum += i.mag();
-  }
+  for (let i = 1; i < r.path.length; i++) {
+    let diff = p5.Vector.sub(r.path[i], r.path[i - 1]);
+      sum += diff.mag();
+    }
   return sum;
 }
 

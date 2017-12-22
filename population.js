@@ -4,7 +4,6 @@ class Population {
     this.rockets = [];
     this.addRockets(this.n);
     this.maxFitness = 0;
-    this.fittestRocket;
   }
 
 
@@ -29,15 +28,11 @@ class Population {
     for (let i of this.rockets) {
       if (i.fitness > this.maxFitness) {
         this.maxFitness = i.fitness;
-        this.fittestRocket = i;
       }
     }
     if (this.maxFitness === 0) {
       return false;
-    } else {
-      winner = this.fittestRocket;
     }
-
     // loop through rockets to create new generation
     let newGenRockets = [];
     for (let i = 0; i < this.rockets.length; i++) {
@@ -107,8 +102,14 @@ class Population {
     }
     // target
     for (let i of this.rockets) {
-      if ( dist(i.pos.x, i.pos.y, tar.x, tar.y) < 50 ) {
-        //winner = i;
+      if (dist(i.pos.x, i.pos.y, tar.x, tar.y) < 50) {
+        if (winner) {
+          if (pathLength(i) < pathLength(winner)) {
+            winner = i;
+          }
+        } else {
+          winner = i;
+        }
         if (lifetime < lifespan) {
           lifespan = lifetime;
         }
@@ -147,5 +148,13 @@ class Population {
       }
     }
   }
+
+
+
+
+
+
+
+
 
 }

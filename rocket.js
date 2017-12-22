@@ -8,8 +8,6 @@ class Rocket {
     this.dna = new DNA();
     this.fitness = 0;
     this.hit = false;
-
-    this.closestPos;
     this.path = [];
   }
 
@@ -40,7 +38,6 @@ class Rocket {
       this.acc.mult(0);
       if (this.getFitness() > this.fitness) {
         this.fitness = this.getFitness();
-        this.closestPos = createVector(this.pos.x, this.pos.y);
       }
     // if hit
     } else {

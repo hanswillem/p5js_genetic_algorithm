@@ -1,9 +1,12 @@
 // click and drag with mouse to move target (green circle)
 // click and drag with mouse to create obstacle
 // 'u' - undo last obstacle
+// 'space' - pause sketch
 
 
-let p, popMax, lifespan, lifespanMax, lifetime, mutationrate, obstcls, creatingObstcl, tar, dragTar, gencount, winner;
+let p, popMax, lifespan, lifespanMax, lifetime, mutationrate, obstcls;
+let creatingObstcl, tar, dragTar, gencount, winner;
+let pause;
 
 
 function setup() {
@@ -21,29 +24,35 @@ function setup() {
   tar = new Tar(width / 2, 100);
   dragTar = false;
   gencount = 0;
+  pause = false;
 }
 
 
 function draw() {
   background(225);
-
-  tar.show();
+  drawHud();
+  drawWinning();
+  drawObstacles();
   drawDragTar();
   createObstacle();
-  drawObstacles();
-  handlePopulation();
-  drawWinning();
-  lifetime ++;
+  tar.show();
 
-  drawHud();
+  if (!pause) {
+    handlePopulation();
+    lifetime ++;
+  }
 }
 
 
 function keyPressed() {
-  // print(keyCode);
+  //print(keyCode);
   // 'u'
   if (keyCode === 85) {
     undoObstacle();
+  }
+  // 'space'
+  if (keyCode === 32) {
+    pause = !pause;
   }
 }
 
@@ -119,6 +128,7 @@ function resetall() {
   p = new Population(popMax);
   gencount = 0;
   winner = null;
+  winnerOverall = null;
 }
 
 
@@ -138,6 +148,9 @@ function drawHud() {
   text('max fitness: ' + p.maxFitness, 50, 90);
   text('mutation rate: ' + mutationrate, 50, 110);
   text('generation: ' + gencount, 50, 130);
+  if (winner) {
+    text('shortest path: ' + pathLength(winner), 50, 150);
+  }
 }
 
 
@@ -146,10 +159,16 @@ function drawWinning() {
     noFill();
     stroke(255);
     drawPath(winner);
-    noStroke();
-    fill(0, 0, 255, 100);
-    ellipse(winner.closestPos.x, winner.closestPos.y, 25);
   }
+}
+
+
+function pathLength(r) {
+  let sum = 0;
+  for (let i of r.path) {
+    sum += i.mag();
+  }
+  return sum;
 }
 
 

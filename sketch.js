@@ -16,7 +16,7 @@ function setup() {
   lifespanMax = 1000;
   lifespan = lifespanMax;
   lifetime = 0;
-  mutationrate = .02;
+  mutationrate = .01;
   popMax = 350;
   p = new Population(popMax);
   obstcls = [];
@@ -125,7 +125,6 @@ function resetall() {
   p = new Population(popMax);
   gencount = 0;
   winner = null;
-  winnerOverall = null;
 }
 
 

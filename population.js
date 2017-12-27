@@ -102,12 +102,14 @@ class Population {
         // if obstacle is hit
         if (i.pos.x > crn_x && i.pos.x < crn_w && i.pos.y > crn_y && i.pos.y < crn_h) {
           i.hit = true;
+          i.fitness = -1;
         }
       }
     }
     // if target is hit
     for (let i of this.rockets) {
       if (dist(i.pos.x, i.pos.y, tar.x, tar.y) < 50) {
+        i.hit = true;
         if (winner) {
           if (pathLength(i) < pathLength(winner)) {
             winner = i;

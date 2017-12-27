@@ -2,19 +2,23 @@ class Rocket {
   constructor(x = width / 2, y = height - 30) {
     this.x = x;
     this.y = y;
+
     this.pos = createVector(this.x, this.y);
+
     this.vel = createVector();
     this.acc = createVector();
     this.dna = new DNA();
     this.fitness = 0;
     this.hit = false;
     this.path = [];
+
+    this.c = 0;
   }
 
 
   show() {
     noStroke();
-    fill(0, 100);
+    fill(this.c, 100);
     rectMode(CENTER);
 
     push();
@@ -29,9 +33,9 @@ class Rocket {
 
 
   update() {
-    this.path.push(createVector(this.pos.x, this.pos.y));
-    // if not hit
     if (this.hit === false) {
+      this.path.push(createVector(this.pos.x, this.pos.y));
+      // if not hit
       this.applyForce(this.dna.genes[lifetime]);
       this.vel.add(this.acc);
       this.pos.add(this.vel);
@@ -39,9 +43,6 @@ class Rocket {
       if (this.getFitness() > this.fitness) {
         this.fitness = this.getFitness();
       }
-    // if hit
-    } else {
-      this.fitness = -1;
     }
   }
 
